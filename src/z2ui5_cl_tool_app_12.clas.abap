@@ -1,18 +1,18 @@
-CLASS z2ui5_cl_tool_app_09 DEFINITION
-  PUBLIC
-  CREATE PUBLIC .
+class Z2UI5_CL_TOOL_APP_12 definition
+  public
+  create public .
 
-  PUBLIC SECTION.
+public section.
 
-    INTERFACES if_serializable_object .
-    INTERFACES z2ui5_if_app .
+  interfaces IF_SERIALIZABLE_OBJECT .
+  interfaces Z2UI5_IF_APP .
 
-    DATA:
-      BEGIN OF ms_screen,
-        partner TYPE string,
+  data:
+    BEGIN OF ms_screen,
+        bukrs TYPE string,
       END OF ms_screen .
-    DATA mv_check_popup TYPE abap_bool .
-    DATA mv_check_initialized TYPE abap_bool .
+  data MV_CHECK_POPUP type ABAP_BOOL .
+  data MV_CHECK_INITIALIZED type ABAP_BOOL .
   PROTECTED SECTION.
 
     METHODS z2ui5_on_init .
@@ -27,10 +27,10 @@ ENDCLASS.
 
 
 
-CLASS Z2UI5_CL_TOOL_APP_09 IMPLEMENTATION.
+CLASS Z2UI5_CL_TOOL_APP_12 IMPLEMENTATION.
 
 
-  METHOD z2ui5_if_app~main.
+  METHOD Z2UI5_IF_APP~MAIN.
 
     IF mv_check_initialized = abap_false.
       mv_check_initialized = abap_true.
@@ -41,8 +41,7 @@ CLASS Z2UI5_CL_TOOL_APP_09 IMPLEMENTATION.
       mv_check_popup = abap_false.
       DATA(app) = CAST z2ui5_cl_tool_app_shlp_gen( client->get_app( client->get( )-s_draft-id_prev_app )  ).
       client->message_toast_display( app->mv_shlp_result ).
-      me->ms_screen-partner = app->mv_shlp_result.
-      "client->view_model_update( ).
+      me->ms_screen-bukrs = app->mv_shlp_result.
       z2ui5_on_render( ir_client = client ).
     ENDIF.
 
@@ -52,14 +51,15 @@ CLASS Z2UI5_CL_TOOL_APP_09 IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD z2ui5_on_event.
+  METHOD Z2UI5_ON_EVENT.
 
     CASE ir_client->get( )-event.
       WHEN `FILTER_VALUE_HELP`.
         mv_check_popup = abap_true.
         ir_client->nav_app_call( z2ui5_cl_tool_app_shlp_gen=>factory(
-          iv_popup_title = 'THIS is the DDIC SHLP title'
-          iv_shlp_id = 'F4SHLP_ACMDTUI_DDLSOURCE' ) ).
+          iv_popup_title = 'SHLP DEMO - using deep search'
+          iv_shlp_id = 'H_T001_ME'
+          iv_use_deep_shlp = abap_true ) ).
 
       WHEN 'BACK'.
         ir_client->nav_app_leave( ir_client->get_app( ir_client->get( )-s_draft-id_prev_app_stack ) ).
@@ -68,12 +68,12 @@ CLASS Z2UI5_CL_TOOL_APP_09 IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD z2ui5_on_init.
+  METHOD Z2UI5_ON_INIT.
 
   ENDMETHOD.
 
 
-  METHOD z2ui5_on_render.
+  METHOD Z2UI5_ON_RENDER.
     DATA(view) = z2ui5_cl_xml_view=>factory( ).
 
     DATA(page) = view->page( id = `page_main`
@@ -84,8 +84,8 @@ CLASS Z2UI5_CL_TOOL_APP_09 IMPLEMENTATION.
 
     DATA(grid) = page->grid( 'L7 M12 S12' )->content( 'layout'
         )->simple_form( 'run DDIC searchhelp in new app' )->content( 'form'
-            )->label( `Partner`
-            )->input(  value = ir_client->_bind_edit( ms_screen-partner )
+            )->label( `Company Code`
+            )->input(  value = ir_client->_bind_edit( ms_screen-bukrs )
                   showvaluehelp                = abap_true
                   valuehelprequest             = ir_client->_event( 'FILTER_VALUE_HELP' ) ).
 

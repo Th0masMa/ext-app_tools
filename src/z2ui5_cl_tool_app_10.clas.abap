@@ -422,7 +422,7 @@ CLASS Z2UI5_CL_TOOL_APP_10 IMPLEMENTATION.
 * RENDERING
 * -------------------------------------------------------------------------------------------------
 * ---------- Set view -----------------------------------------------------------------------------
-      DATA(lr_view) = Z2UI5_cl_xml_view=>factory( client = client ).
+      DATA(lr_view) = Z2UI5_cl_xml_view=>factory( ).
 
       DATA(lr_page) = lr_view->page(
             title          = 'abap2UI5 - DDIC Searchhelp generator'
@@ -453,7 +453,7 @@ CLASS Z2UI5_CL_TOOL_APP_10 IMPLEMENTATION.
     CASE client->get( )-event.
       WHEN 'F4_POPUP_OPEN_XML_VIEW'.
 
-        DATA(lr_popup1) = Z2UI5_cl_xml_view=>factory_popup( client ).
+        DATA(lr_popup1) = Z2UI5_cl_xml_view=>factory_popup(  ).
 
 * ---------- Create Dialog ------------------------------------------------------------------------
         DATA(lr_dialog1) = lr_popup1->dialog( title     = 'DDIC SHLP Generator'
@@ -480,7 +480,8 @@ CLASS Z2UI5_CL_TOOL_APP_10 IMPLEMENTATION.
 
 
 *        lr_toolbar1 = lr_toolbar1->generate_ddic_shlp( irparent = lr_dialog_content1
-        DATA(popup_f4) = lr_dialog1->zfc_ddic_search_help( irparent = lr_dialog1
+*        DATA(popup_f4) = lr_dialog1->zfc_ddic_search_help( irparent = lr_dialog1
+        DATA(popup_f4) = z2ui5_cl_tool_shlp_gen=>zfc_ddic_search_help( irparent = lr_dialog1
                                                       irclient = client
                                                       resultitabevent = 'F4_POPUP_CLOSE_XML_VIEW'
                                                       resultitabname = 'MT_SHLP_RESULT_XML'
@@ -499,7 +500,7 @@ CLASS Z2UI5_CL_TOOL_APP_10 IMPLEMENTATION.
 
       WHEN 'F4_POPUP_OPEN'.
 * ---------- Create Popup -------------------------------------------------------------------------
-        DATA(lr_popup) = Z2UI5_cl_xml_view=>factory_popup( client ).
+        DATA(lr_popup) = Z2UI5_cl_xml_view=>factory_popup( ).
 
 * ---------- Create Dialog ------------------------------------------------------------------------
         DATA(lr_dialog) = lr_popup->dialog( title     = 'DDIC SHLP Generator'
