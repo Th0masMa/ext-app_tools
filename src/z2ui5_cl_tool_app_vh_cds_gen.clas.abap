@@ -794,7 +794,7 @@ ENDMETHOD.
 * ---------- Create Panel -------------------------------------------------------------------------
     DATA(lr_panel)  = lr_vbox->panel( expandable = abap_false
                                       expanded   = abap_true
-                                      headertext = ir_client->_bind_local( ls_fielddescr-scrtext_l ) ).
+                                      headertext = ls_fielddescr-scrtext_l ).
 
 * ---------- Create List item ---------------------------------------------------------------------
     DATA(lr_item) = lr_panel->list(
